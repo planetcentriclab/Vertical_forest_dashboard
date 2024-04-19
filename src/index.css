@@ -1,0 +1,24 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box
+}
+header{
+    list-style-type: none;
+    margin: 0;
+    padding: 1rem;
+    overflow: hidden;
+    background-color: #ffffff;
+    color: #fff;
+}
+
+main{
+    padding: 3rem;
+}
+
+footer{
+    background: #333;
+    padding: 2rem;
+    text-align: center;
+    color: #fff;
+}
