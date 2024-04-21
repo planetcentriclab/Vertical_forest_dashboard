@@ -1,13 +1,14 @@
 import React from 'react'
 import {AvatarGroup, Avatar, HStack, VStack, Image, Text, Spacer, Heading, Icon} from '@chakra-ui/react'
 import { BellIcon, AddIcon, WarningIcon } from '@chakra-ui/icons'
+import logo from "./planet-centric-logo.png";
 
 function Header() {
   return (
     <>
     <header>
         <HStack direction='row'>
-          <Image boxSize='60px' objectFit='cover' src='https://lh5.googleusercontent.com/uOR-ZLRYRMfhtYh7bHBF6xzpTaxEJnDwck6_9fhnT6h8C8prc9lBpuyrKDNPiggZKBqhluoeogOHEH9x3nYF3SWbOy6ZtXOgOjfLrpo-b7gy4m3nhtejF-uWvEpZ7EDksg=w1280' alt='Logo' />
+          <Image boxSize='60px' objectFit='cover' src={logo} alt='Logo' />
             <VStack direction='row' align='stretch'>
             <Heading fontSize='2xl' color='green'>PLANET-CENTRIC</Heading>
             <Heading fontSize='2xl' color= 'black'>VERTICAL FOREST</Heading>
