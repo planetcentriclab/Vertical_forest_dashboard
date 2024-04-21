@@ -9,7 +9,7 @@ function Content() {
             <CardBody>
                 <Stat>
                     <StatLabel fontSize= 'lg'color= 'gray.600'>Temperature</StatLabel>
-                    <StatNumber fontSize= '5xl'>33.21°C</StatNumber>
+                    <StatNumber fontSize= '5xl'>40.21°C</StatNumber>
                     <StatHelpText fontSize= 'md'>
                     <StatArrow type='decrease' />
                     1.23°C
