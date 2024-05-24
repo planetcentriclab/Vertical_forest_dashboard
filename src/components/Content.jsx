@@ -1,146 +1,223 @@
-import React, {useState, useEffect} from 'react'
-import { Grid, GridItem, Avatar, AvatarBadge, AvatarGroup,Stat ,StatLabel, StatNumber, StatHelpText, StatArrow, StatGroup, Card, CardBody} from '@chakra-ui/react'
-import axios from 'axios'
+// Content.jsx file
+import React from 'react';
+import { Grid, GridItem, Card, CardBody, Stat, StatLabel, StatNumber, StatHelpText, StatArrow, Divider , CircularProgress, CircularProgressLabel, Flex, Image } from '@chakra-ui/react';
+import useFetchData from './useFetchData';
+import dayjs from 'dayjs';
+import VariableChart from './StockChartWithRangeSelector';
+import useWeather from './weather';
+import { BiSolidMap, BiCalendar ,BiSolidTime} from "react-icons/bi";
+import { FaCloud  } from "react-icons/fa";
 
 function Content() {
-    const [Light, setLight] = useState([]);
-    const [Temperature, setTemperature] = useState([]);
-    const [Humidity, setHumidity] = useState([]);
-    const [SoilTemperature, setSoilTemperature] = useState([]);
-    const [SoilMoisture, setSoilMoisture] = useState([]);
-    const [SoilPH, setSoilPH] = useState([]);
-    const [WaterFlow, setWaterFlow] = useState([]);
-    const [VoltageFlow, setVoltageFlow] = useState([]);
-    const [CurrentFlow, setCurrentFlow] = useState([]);
+  const { data, averageData } = useFetchData();
+  const {weather, date, formattedTime } = useWeather();
+  const readLatest = {};
+  Object.keys(data).forEach(key => {
+    readLatest[key] = data[key]?.[data[key].length - 1]?.value_con ?? 'Loading...';
+  });
 
-  useEffect(()=> {
-    axios.get('https://books-opening.gl.at.ply.gg:61345/api/v1/verticalForest/lightIntensity')
-    .then(res => setLight(res.data))
-    .catch(err => console.log(err));
-  },[])
-
-  useEffect(()=> {
-    axios.get('https://books-opening.gl.at.ply.gg:61345/api/v1/verticalForest/temperature')
-    .then(res => setTemperature(res.data))
-    .catch(err => console.log(err));
-  },[])
-
-  useEffect(()=> {
-    axios.get('https://books-opening.gl.at.ply.gg:61345/api/v1/verticalForest/humidity')
-    .then(res => setHumidity(res.data))
-    .catch(err => console.log(err));
-  },[])
-
-  useEffect(()=> {
-    axios.get('https://books-opening.gl.at.ply.gg:61345/api/v1/verticalForest/soilTemperature')
-    .then(res => setSoilTemperature(res.data))
-    .catch(err => console.log(err));
-  },[])
-
-  useEffect(()=> {
-    axios.get('https://books-opening.gl.at.ply.gg:61345/api/v1/verticalForest/soilMoisture')
-    .then(res => setSoilMoisture(res.data))
-    .catch(err => console.log(err));
-  },[])
-
-  useEffect(()=> {
-    axios.get('https://books-opening.gl.at.ply.gg:61345/api/v1/verticalForest/soilPH')
-    .then(res => setSoilPH(res.data))
-    .catch(err => console.log(err));
-  },[])
-
-  useEffect(()=> {
-    axios.get('https://books-opening.gl.at.ply.gg:61345/api/v1/verticalForest/waterFlow')
-    .then(res => setWaterFlow(res.data))
-    .catch(err => console.log(err));
-  },[])
-
-  useEffect(()=> {
-    axios.get('https://books-opening.gl.at.ply.gg:61345/api/v1/verticalForest/voltageFlow')
-    .then(res => setVoltageFlow(res.data))
-    .catch(err => console.log(err));
-  },[])
-
-  useEffect(()=> {
-    axios.get('https://books-opening.gl.at.ply.gg:61345/api/v1/verticalForest/currentFlow')
-    .then(res => setCurrentFlow(res.data))
-    .catch(err => console.log(err));
-  },[])
-
-
-//   console.log(Light);
-  const readLight = Light[Light.length - 1] ;
-  const readTemperature = Temperature[Temperature.length - 1] ;
-  const readHumidity = Humidity[Humidity.length - 1] ;
-  const readSoilTemperature = SoilTemperature[SoilTemperature.length - 1] ;
-  const readSoilMoisture = SoilMoisture[SoilMoisture.length - 1] ;
-  const readSoilPH = SoilPH[SoilPH.length - 1] ;
-  const readWaterFlow = WaterFlow[WaterFlow.length - 1] ;
-  const readVoltageFlow = VoltageFlow[VoltageFlow.length - 1] ;
-  const readCurrentFlow = CurrentFlow[CurrentFlow.length - 1] ;
-
-//   console.log("Light",readLight);
-//   console.log("Temperature",readTemperature);
+  const getCurrentPeriod = () => {
+    const currentHour = dayjs().hour();
+    if (currentHour >= 6 && currentHour < 12) return 'morning';
+    if (currentHour >= 12 && currentHour < 18) return 'afternoon';
+    if (currentHour >= 18 && currentHour < 24) return 'evening';
+    return 'night';
+  };
+  const currentPeriod = getCurrentPeriod();
 
   return (
     <main>
-        <Grid templateColumns='repeat(4, 1fr)' gap={5}>
-            <Card>
+      <Grid
+        h='800px'
+        templateRows='repeat(3, 1fr)'
+        templateColumns='repeat(4, 1fr)'
+        gap={4}
+      >
+        {/* <GridItem rowSpan={4} colSpan={1} bg='tomato' /> */}
+        <GridItem colSpan={1}>
+          <Card size='sm'>
             <CardBody>
-                <Stat>
-                    <StatLabel fontSize= 'lg'color= 'gray.600'>Temperature</StatLabel>
-                    <StatNumber fontSize= '5xl'>40.21°C</StatNumber>
-                    <StatHelpText fontSize= 'md'>
-                    <StatArrow type='decrease' />
-                    1.23°C
-                    Since last week.
-                    </StatHelpText>
-                </Stat>
+              <Stat>
+                <StatLabel fontSize='lg' color='gray.600'>Temperature</StatLabel>
+                <StatNumber fontSize='5xl'>{readLatest.temperature} °C</StatNumber>
+                <StatHelpText fontSize='md'>
+                  <StatArrow type={averageData.temperature[currentPeriod] >= readLatest.temperature ? 'increase' : 'decrease'} />
+                  {averageData.temperature[currentPeriod] > 0 ? readLatest.temperature - averageData.temperature[currentPeriod] : 0}°C Since last week.
+                </StatHelpText>
+              </Stat>
             </CardBody>
-            </Card>
-            <Card>
+          </Card>
+        </GridItem>
+        
+        <GridItem colSpan={1}>
+          <Card size='sm'>
             <CardBody>
-                <Stat>
-                    <StatLabel fontSize= 'lg'color= 'gray.600'>Humidity</StatLabel>
-                    <StatNumber fontSize= '5xl'>60.55%</StatNumber>
-                    <StatHelpText fontSize= 'md'>
-                    <StatArrow type='increase' />
-                    23.36%
-                    Since last week.
-                    </StatHelpText>
-                </Stat>
+              <Stat>
+                <StatLabel fontSize='lg' color='gray.600'>Humidity</StatLabel>
+                <StatNumber fontSize='5xl'>{readLatest.humidity} %</StatNumber>
+                <StatHelpText fontSize='md'>
+                  <StatArrow type={averageData.humidity[currentPeriod] >= readLatest.humidity ? 'increase' : 'decrease'} />
+                  {averageData.humidity[currentPeriod] > 0 ? readLatest.humidity - averageData.humidity[currentPeriod] : 0}% Since last week.
+                </StatHelpText>
+              </Stat>
             </CardBody>
-            </Card>
-            <Card>
-            <CardBody>
-                <Stat>
-                    <StatLabel fontSize= 'lg'color= 'gray.600'>Soil Temperature</StatLabel>
-                    <StatNumber fontSize= '5xl'>28.38°C</StatNumber>
-                    <StatHelpText fontSize= 'md'>
-                    <StatArrow type='increase' />
-                    3.84°C
-                    Since last week.
-                    </StatHelpText>
-                </Stat>
-            </CardBody>
-            </Card>
-            <Card>
-            <CardBody>
-                <Stat>
-                    <StatLabel fontSize= 'lg'color= 'gray.600'>Soil Humidity</StatLabel>
-                    <StatNumber fontSize= '5xl'>76.57%</StatNumber>
-                    <StatHelpText fontSize= 'md'>
-                    <StatArrow type='increase' />
-                    1.23%
-                    Since last week.
-                    </StatHelpText>
-                </Stat>
-            </CardBody>
-            </Card>
-        </Grid>
-    </main>
-    
-  )
-}
+          </Card>
+        </GridItem>
 
-export default Content
+        <GridItem colSpan={1}>
+          <Card size='sm'>
+            <CardBody>
+              <Stat>
+                <StatLabel fontSize='lg' color='gray.600'>Soil Temperature</StatLabel>
+                <StatNumber fontSize='5xl'>{readLatest.soilTemperature} °C</StatNumber>
+                <StatHelpText fontSize='md'>
+                  <StatArrow type={averageData.soilTemperature[currentPeriod] >= readLatest.soilTemperature ? 'increase' : 'decrease'} />
+                  {averageData.soilTemperature[currentPeriod] > 0 ? readLatest.soilTemperature - averageData.soilTemperature[currentPeriod] : 0}°C Since last week.
+                </StatHelpText>
+              </Stat>
+            </CardBody>
+          </Card>
+        </GridItem>
+
+        <GridItem colSpan={1}>
+          <Card size='sm'>
+            <CardBody>
+              <Stat>
+                <StatLabel fontSize='lg' color='gray.600'>Soil Moisture</StatLabel>
+                <StatNumber fontSize='5xl'>{readLatest.soilMoisture} %</StatNumber>
+                <StatHelpText fontSize='md'>
+                  <StatArrow type={averageData.soilMoisture[currentPeriod] >= readLatest.soilMoisture ? 'increase' : 'decrease'} />
+                  {averageData.soilMoisture[currentPeriod] > 0 ? readLatest.soilMoisture - averageData.soilMoisture[currentPeriod] : 0}% Since last week.
+                </StatHelpText>
+              </Stat>
+            </CardBody>
+          </Card>
+        </GridItem>
+
+        <Grid templateRows='repeat(2, 0fr)' gap={2}>
+          {/* <GridItem colSpan={1}>
+          <Card size='sm'>
+           <CardBody>
+             <Stat>
+               <StatLabel fontSize='lg' color='gray.600'>Light Meter</StatLabel>
+               <StatNumber fontSize='5xl'>{readLatest.light} lx</StatNumber>
+               <StatHelpText fontSize='md'>
+                 <StatArrow type={averageData.light[currentPeriod] >= readLatest.light ? 'increase' : 'decrease'} />
+                 {averageData.light[currentPeriod] > 0 ? readLatest.light - averageData.light[currentPeriod] : 0}% Since last week.
+               </StatHelpText>
+             </Stat>
+           </CardBody>
+          </Card>
+          </GridItem> */}
+        <GridItem rowSpanS={1}>
+          <Card size='sm'>
+            <CardBody>
+            <Stat>
+            <StatLabel fontSize='lg' color='gray.600'>Light Meter</StatLabel>
+            <Flex justifyContent="center" alignItems="center" height="100%">
+              <CircularProgress value={readLatest.light} max={65535} size='100px' thickness='12px'>
+                <CircularProgressLabel>{readLatest.light} lx</CircularProgressLabel>
+              </CircularProgress>
+            </Flex>
+              {/* <StatHelpText fontSize='md' mt={4}>
+                <StatArrow type={averageData.light[currentPeriod] >= readLatest.light ? 'increase' : 'decrease'} />
+                {averageData.light[currentPeriod] > 0 ? readLatest.light - averageData.light[currentPeriod] : 0}% Since last week.
+              </StatHelpText> */}
+              </Stat>
+            </CardBody>
+          </Card>
+        </GridItem>
+          <GridItem rowSpanS={1}>
+            <Card size='sm'>
+            <CardBody>
+              <Stat>
+                <StatLabel fontSize='lg' color='gray.600'>Power</StatLabel>
+                <Divider orientation='horizontal' />
+                <StatLabel fontSize='lg' color='gray.600'>Voltage</StatLabel>
+                <Flex justifyContent="center" alignItems="center" height="100%">
+                  <StatNumber fontSize='5xl'>{readLatest.voltageFlow} V</StatNumber>
+                </Flex>
+              </Stat>
+              <Stat>
+                <StatLabel fontSize='lg' color='gray.600'>Current</StatLabel>
+                <Flex justifyContent="center" alignItems="center" height="100%">
+                  <StatNumber fontSize='5xl'>{readLatest.currentFlow} A</StatNumber>
+                </Flex>
+              </Stat>
+            </CardBody>
+          </Card>
+          </GridItem>
+        </Grid>
+
+        <GridItem rowSpan={2} colSpan={3}>
+          <Card size='lg'>
+            <CardBody>
+            <VariableChart endpoints={["temperature", "humidity", "soilTemperature", "soilMoisture"]} units={["°C", "", "°C", ""]} size = {350} />
+            </CardBody>
+          </Card>
+        </GridItem>
+        
+        <GridItem rowSpan={1} colSpan={3}>
+          <Card size='lg'>
+            <CardBody>
+            <VariableChart endpoints={["waterFlow1", "waterFlow2"]} units={["mL", "mL"]} size = {250}  />
+            </CardBody>
+          </Card>
+        </GridItem>
+
+        <GridItem colSpan={1}>
+          <Card size='lg' style={{ background: '#7CA7E1', height: '305px'}}>
+            <CardBody>
+              {weather.loading && <p>Loading weather data...</p>}
+              {weather.error && <p>Error fetching weather data.</p>}
+              {weather.data.main && (
+                <>
+                  <div className="cloud-icon" style={{ position: 'absolute', bottom: '20px', left: '100px', fontSize: '48px', color: '#fff', opacity: 0.5 }}>
+                    <FaCloud />
+                  </div>
+                  <div className="cloud-icon" style={{ position: 'absolute', top: '45px', right: '20px', fontSize: '48px', color: '#fff', opacity: 0.5 }}>
+                    <FaCloud />
+                  </div>
+                  <div className="cloud-icon" style={{ position: 'absolute', top: '25px', left: '40px', fontSize: '48px', color: '#fff', opacity: 0.5 }}>
+                    <FaCloud />
+                  </div>
+                  <Stat>
+                    <StatLabel fontSize='lg' color='gray.600'>Weather</StatLabel>
+                    <Divider orientation='horizontal' />
+
+                    <Flex justifyContent="center" alignItems="center" align="center">
+                      <Image
+                        src={`https://openweathermap.org/img/wn/${weather.data.weather[0].icon}@2x.png`}
+                        alt={weather.data.weather[0].description}
+                      />
+                      <StatNumber fontSize='6xl' >{parseInt(weather.data.main.temp)} °C</StatNumber>
+                    </Flex>
+                    <Flex justifyContent="center" alignItems="center" align="center">
+                      <StatHelpText fontSize='md'>{weather.data.weather[0].description}</StatHelpText>
+                    </Flex>
+                    <Flex justifyContent="center" alignItems="center" align="center">
+                      <StatNumber fontSize='md'>Wind: {weather.data.wind.speed}m/s, Humidity: {weather.data.main.humidity}%</StatNumber>
+                    </Flex>
+                    <Flex justifyContent="center" alignItems="center" align="center">
+                      <BiSolidTime style={{ marginRight: '4px' }}/>
+                      <StatNumber fontSize='md'>{formattedTime } ,</StatNumber>
+                      <BiCalendar style={{ marginRight: '4px' }} />
+                      <StatNumber fontSize='md'>{date}</StatNumber>
+                    </Flex>
+                    <Flex justifyContent="center" alignItems="center" align="center">
+                      <BiSolidMap style={{ marginRight: '4px' }} />
+                      <StatNumber fontSize='md'>{weather.data.name}, {weather.data.sys.country}</StatNumber>
+                    </Flex>
+                  </Stat>
+                </>
+              )}
+            </CardBody>
+          </Card>
+        </GridItem>
+
+      </Grid>
+    </main>
+  );
+} 
+
+export default Content;
