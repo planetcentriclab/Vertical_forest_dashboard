@@ -39,7 +39,7 @@ function Content() {
             <CardBody>
               <Stat>
                 <StatLabel fontSize='lg' color='gray.600'>Temperature</StatLabel>
-                <StatNumber fontSize='5xl'>{readLatest.temperature} °C</StatNumber>
+                <StatNumber fontSize='4xl'>{readLatest.temperature} °C</StatNumber>
                 <StatHelpText fontSize='md'>
                   <StatArrow type={averageData.temperature[currentPeriod] >= readLatest.temperature ? 'increase' : 'decrease'} />
                   {averageData.temperature[currentPeriod] > 0 ? readLatest.temperature - averageData.temperature[currentPeriod] : 0}°C Since last week.
@@ -54,7 +54,7 @@ function Content() {
             <CardBody>
               <Stat>
                 <StatLabel fontSize='lg' color='gray.600'>Humidity</StatLabel>
-                <StatNumber fontSize='5xl'>{readLatest.humidity} %</StatNumber>
+                <StatNumber fontSize='4xl'>{readLatest.humidity} %</StatNumber>
                 <StatHelpText fontSize='md'>
                   <StatArrow type={averageData.humidity[currentPeriod] >= readLatest.humidity ? 'increase' : 'decrease'} />
                   {averageData.humidity[currentPeriod] > 0 ? readLatest.humidity - averageData.humidity[currentPeriod] : 0}% Since last week.
@@ -69,7 +69,7 @@ function Content() {
             <CardBody>
               <Stat>
                 <StatLabel fontSize='lg' color='gray.600'>Soil Temperature</StatLabel>
-                <StatNumber fontSize='5xl'>{readLatest.soilTemperature} °C</StatNumber>
+                <StatNumber fontSize='4xl'>{readLatest.soilTemperature} °C</StatNumber>
                 <StatHelpText fontSize='md'>
                   <StatArrow type={averageData.soilTemperature[currentPeriod] >= readLatest.soilTemperature ? 'increase' : 'decrease'} />
                   {averageData.soilTemperature[currentPeriod] > 0 ? readLatest.soilTemperature - averageData.soilTemperature[currentPeriod] : 0}°C Since last week.
@@ -84,7 +84,7 @@ function Content() {
             <CardBody>
               <Stat>
                 <StatLabel fontSize='lg' color='gray.600'>Soil Moisture</StatLabel>
-                <StatNumber fontSize='5xl'>{readLatest.soilMoisture} %</StatNumber>
+                <StatNumber fontSize='4xl'>{readLatest.soilMoisture} %</StatNumber>
                 <StatHelpText fontSize='md'>
                   <StatArrow type={averageData.soilMoisture[currentPeriod] >= readLatest.soilMoisture ? 'increase' : 'decrease'} />
                   {averageData.soilMoisture[currentPeriod] > 0 ? readLatest.soilMoisture - averageData.soilMoisture[currentPeriod] : 0}% Since last week.
@@ -135,13 +135,13 @@ function Content() {
                 <Divider orientation='horizontal' />
                 <StatLabel fontSize='lg' color='gray.600'>Voltage</StatLabel>
                 <Flex justifyContent="center" alignItems="center" height="100%">
-                  <StatNumber fontSize='5xl'>{readLatest.voltageFlow} V</StatNumber>
+                  <StatNumber fontSize='4xl'>{readLatest.voltageFlow} V</StatNumber>
                 </Flex>
               </Stat>
               <Stat>
                 <StatLabel fontSize='lg' color='gray.600'>Current</StatLabel>
                 <Flex justifyContent="center" alignItems="center" height="100%">
-                  <StatNumber fontSize='5xl'>{readLatest.currentFlow} A</StatNumber>
+                  <StatNumber fontSize='4xl'>{readLatest.currentFlow} A</StatNumber>
                 </Flex>
               </Stat>
             </CardBody>
@@ -149,8 +149,8 @@ function Content() {
           </GridItem>
         </Grid>
 
-        <GridItem rowSpan={2} colSpan={3}>
-          <Card size='lg'>
+        <GridItem rowSpan={1} colSpan={3}>
+          <Card size='sm'>
             <CardBody>
             <VariableChart endpoints={["temperature", "humidity", "soilTemperature", "soilMoisture"]} units={["°C", "", "°C", ""]} size = {350} />
             </CardBody>
@@ -158,7 +158,7 @@ function Content() {
         </GridItem>
         
         <GridItem rowSpan={1} colSpan={3}>
-          <Card size='lg'>
+          <Card size='sm'>
             <CardBody>
             <VariableChart endpoints={["waterFlow1", "waterFlow2"]} units={["mL", "mL"]} size = {250}  />
             </CardBody>
@@ -166,7 +166,7 @@ function Content() {
         </GridItem>
 
         <GridItem colSpan={1}>
-          <Card size='lg' style={{ background: '#7CA7E1', height: '305px'}}>
+          <Card size='sm' style={{ background: '#7CA7E1', height: '275px'}}>
             <CardBody>
               {weather.loading && <p>Loading weather data...</p>}
               {weather.error && <p>Error fetching weather data.</p>}
@@ -190,7 +190,7 @@ function Content() {
                         src={`https://openweathermap.org/img/wn/${weather.data.weather[0].icon}@2x.png`}
                         alt={weather.data.weather[0].description}
                       />
-                      <StatNumber fontSize='6xl' >{parseInt(weather.data.main.temp)} °C</StatNumber>
+                      <StatNumber fontSize='5xl' >{parseInt(weather.data.main.temp)} °C</StatNumber>
                     </Flex>
                     <Flex justifyContent="center" alignItems="center" align="center">
                       <StatHelpText fontSize='md'>{weather.data.weather[0].description}</StatHelpText>

@@ -170,7 +170,7 @@ class StockChartWithRangeSelector extends Component {
         const lastDate = new Date(allData[allData.length - 1].date + " " + allData[allData.length - 1].time);
 
         const parsedDataSets = data.map((dataset, index) => ({
-          type: "line",
+          type: units[index] === "mL" ? "column":"line",
           name: this.getDatasetName(endpoints[index]),
           showInLegend: true,
           connectNullData: true,
@@ -300,6 +300,27 @@ class StockChartWithRangeSelector extends Component {
         },
         rangeSelector: {
           inputFields: { startValue: firstDate, endValue: lastDate },
+          buttons: [{
+            range: 1, 
+            rangeType: "day",
+            label: "1d"
+          },{
+            range: 1, 
+            rangeType: "week",
+            label: "1w"
+          },{
+            range: 1, 
+            rangeType: "month",
+            label: "1m"
+          },{            
+            range: 2,
+            rangeType: "month",
+            label: "2m"
+          },{            
+            rangeType: "all",
+            label: "All" //Change it to "All"
+            
+          }]
         },
       };
 
