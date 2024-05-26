@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/Vertical_forest_dashboard/static/css/main.4c1154e7.css",
-    "main.js": "/Vertical_forest_dashboard/static/js/main.e82d73d9.js",
+    "main.js": "/Vertical_forest_dashboard/static/js/main.2f7f2df7.js",
     "static/js/453.a6a97343.chunk.js": "/Vertical_forest_dashboard/static/js/453.a6a97343.chunk.js",
     "static/media/planet-centric-logo.png": "/Vertical_forest_dashboard/static/media/planet-centric-logo.9cced6d7ea2e36c1c6c2.png",
     "index.html": "/Vertical_forest_dashboard/index.html",
     "main.4c1154e7.css.map": "/Vertical_forest_dashboard/static/css/main.4c1154e7.css.map",
-    "main.e82d73d9.js.map": "/Vertical_forest_dashboard/static/js/main.e82d73d9.js.map",
+    "main.2f7f2df7.js.map": "/Vertical_forest_dashboard/static/js/main.2f7f2df7.js.map",
     "453.a6a97343.chunk.js.map": "/Vertical_forest_dashboard/static/js/453.a6a97343.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.4c1154e7.css",
-    "static/js/main.e82d73d9.js"
+    "static/js/main.2f7f2df7.js"
   ]
 }
