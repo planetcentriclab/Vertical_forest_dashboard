@@ -217,7 +217,7 @@ function Content() {
 
       </Grid>
     </main>
-  );
+  )
 } 
 
 export default Content;

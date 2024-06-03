@@ -1,14 +1,14 @@
 import React from 'react'
 
-function Footer() {
+function Manu() {
 
   return (
     <>
-      <footer>
+      <manu>
       {/* Copyright © Your Website 2024 */}
-      </footer>
+      </manu>
     </>
   )
 }
 
-export default Footer
+export default Manu
